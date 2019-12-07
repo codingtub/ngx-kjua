@@ -1,7 +1,7 @@
 {
   "name": "@codingtub/ngx-kjua",
   "description": "Angular QR-Code generator component. Forked from https://github.com/werthdavid/ngx-kjua.",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "license": "MIT",
   "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "scripts": {
