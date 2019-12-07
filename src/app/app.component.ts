@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
   selector: "app-root",
@@ -7,7 +7,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
 })
 export class AppComponent implements AfterViewInit {
 
-  text = "https://github.com/werthdavid/ngx-kjua";
+  text = "https://github.com/codingtub/ngx-kjua";
   render = "svg";
   crisp = true;
   minVersion = 1;
@@ -30,7 +30,7 @@ export class AppComponent implements AfterViewInit {
   imageText = "";
   imgNativeElement = undefined;
 
-  @ViewChild("imgBuffer")
+  @ViewChild("imgBuffer", { static: false })
   imageElement: ElementRef;
 
   ngAfterViewInit(): void {
@@ -42,18 +42,18 @@ export class AppComponent implements AfterViewInit {
    * @param event
    */
   getFiles(event) {
-    if (event.target.files.length > 0) {
+    if ( event.target.files.length > 0 ) {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event2: any) => { // called once readAsDataURL is completed
         this.imageElement.nativeElement.src = event2.target.result;
         this.imgNativeElement = this.imageElement.nativeElement;
-      }
+      };
     }
   }
 
   get image() {
-    if (!!this.imageText && this.imageText.length > 0) {
+    if ( !!this.imageText && this.imageText.length > 0 ) {
       return this.imageText;
     } else {
       return this.imgNativeElement;

@@ -1,7 +1,17 @@
-import {ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges, ViewChild,} from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component, ElementRef,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  PLATFORM_ID,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
 
-import {isPlatformServer} from "@angular/common";
-import {KjuaOptions} from "kjua-svg";
+import { isPlatformServer } from "@angular/common";
+import { KjuaOptions } from "kjua-svg";
 
 // Because kjua uses `window` and `document` directly, we cannot `import` during SSR
 // instead, we load dynamically via `require('kjua')` in `ngAfterViewInit()`
@@ -97,7 +107,7 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
    * label/image size and pos in pc= 0..100
    */
   @Input()
-  mSize = 30;
+  mSize: number = 30;
   @Input()
   mPosX = 50;
   @Input()
@@ -133,15 +143,15 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
   @Input()
   cssClass;
 
-  @ViewChild("elem")
-  div;
+  @ViewChild("elem", { static: false })
+  div: ElementRef;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
-    if (isPlatformServer(this.platformId)) {
+    if ( isPlatformServer(this.platformId) ) {
       return;
-    } else if (!kjua) {
+    } else if ( !kjua ) {
       kjua = require("kjua-svg");
     }
   }
@@ -188,12 +198,14 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
   }
 
   updateView() {
-    this.div.nativeElement.style.width = +this.size;
-    this.div.nativeElement.style.height = +this.size;
-    if (this.renderAsync) {
-      requestAnimationFrame(() => this.renderCode());
-    } else {
-      this.renderCode();
+    if ( this.div ) {
+      this.div.nativeElement.style.width = +this.size;
+      this.div.nativeElement.style.height = +this.size;
+      if ( this.renderAsync ) {
+        requestAnimationFrame(() => this.renderCode());
+      } else {
+        this.renderCode();
+      }
     }
   }
 }
