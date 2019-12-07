@@ -4,18 +4,18 @@ export class QrCodeHelper {
    *  Make the code for creating an SMS.
    *  Number can be provided as number or string (useful for international format e.g. +1 for USA)
    *
-   * @paramnumber
+   * @param number
    * @param text
    */
   static makeSMS(number: number | string, text?: string): string {
-    if (text) {
-      if (text.length > 160) {
-        return `SMSTO:${number}:${text.substr(0, 160)}`;
+    if ( text ) {
+      if ( text.length > 160 ) {
+        return `SMSTO:${ number }:${ text.substr(0, 160) }`;
       } else {
-        return `SMSTO:${number}:${text}`;
+        return `SMSTO:${ number }:${ text }`;
       }
     } else {
-      return `SMSTO:${number}`;
+      return `SMSTO:${ number }`;
     }
   }
 
@@ -26,7 +26,7 @@ export class QrCodeHelper {
    * @param number
    */
   static makeCall(number: number | string): string {
-    return `tel:${number}`;
+    return `tel:${ number }`;
   }
 
   /**
@@ -37,7 +37,7 @@ export class QrCodeHelper {
    * @param meters
    */
   static makeGeo(lat: string, lon: string, meters = 400): string {
-    return `geo:${lat},${lon},${meters}`;
+    return `geo:${ lat },${ lon },${ meters }`;
   }
 
   /**
@@ -50,9 +50,9 @@ export class QrCodeHelper {
    */
   static makeEvent(description: string, begin: string, end: string): string {
     return `BEGIN:VEVENT
-SUMMARY:${description}
-DTSTART:${begin}
-DTEND:${end}
+SUMMARY:${ description }
+DTSTART:${ begin }
+DTEND:${ end }
 END:VEVENT`;
   }
 
@@ -64,13 +64,13 @@ END:VEVENT`;
    * @param text
    */
   static makeEmail(recipient: string, subject?: string, text?: string): string {
-    let retVal = `MATMSG:TO:${recipient};`;
-    if (subject) {
-      retVal += `SUB:${subject}`;
+    let retVal = `MATMSG:TO:${ recipient };`;
+    if ( subject ) {
+      retVal += `SUB:${ subject }`;
     }
     retVal += `;`;
-    if (text) {
-      retVal += `BODY:${text}`;
+    if ( text ) {
+      retVal += `BODY:${ text }`;
     }
     retVal += `;;`;
     return retVal;
@@ -85,12 +85,12 @@ END:VEVENT`;
    * @param hidden
    */
   static makeWifi(ssid: string, pass?: string, hidden = false): string {
-    let retVal = `WIFI:${!!pass ? "T:WPA" : "T:nopass"};S:${ssid};`;
-    if (pass) {
-      retVal += `P:${pass}`;
+    let retVal = `WIFI:${ !!pass ? "T:WPA" : "T:nopass" };S:${ ssid };`;
+    if ( pass ) {
+      retVal += `P:${ pass }`;
     }
     retVal += `;`;
-    if (hidden) {
+    if ( hidden ) {
       retVal += `H:true`;
     }
     retVal += `;`;
@@ -111,20 +111,20 @@ END:VEVENT`;
    * @param url
    */
   static makeContactMeCard(name: string, telNumbers?: string[] | number[], address?: string, email?: string, url?: string): string {
-    let retVal = `MECARD:N:${name};`;
-    if (address) {
-      retVal += `ADR:${address};`;
+    let retVal = `MECARD:N:${ name };`;
+    if ( address ) {
+      retVal += `ADR:${ address };`;
     }
-    if (telNumbers && telNumbers.length > 0) {
+    if ( telNumbers && telNumbers.length > 0 ) {
       for (let i = 0; i < telNumbers.length; i++) {
-        retVal += `TEL:${telNumbers[i]};`;
+        retVal += `TEL:${ telNumbers[i] };`;
       }
     }
-    if (email) {
-      retVal += `EMAIL:${email};`;
+    if ( email ) {
+      retVal += `EMAIL:${ email };`;
     }
-    if (url) {
-      retVal += `URL:${url};`;
+    if ( url ) {
+      retVal += `URL:${ url };`;
     }
     retVal += `;`;
     return retVal;
