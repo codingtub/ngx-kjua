@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   text = "https://github.com/codingtub/ngx-kjua";
   render = "svg";
@@ -33,8 +33,13 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("imgBuffer", { static: false })
   imageElement: ElementRef;
 
+  ngOnInit(): void {
+    setTimeout(() => this.imgNativeElement = this.imageElement.nativeElement, 1000);
+    // this.imgNativeElement = this.imageElement.nativeElement;
+  }
+
   ngAfterViewInit(): void {
-    setTimeout(() => this.imgNativeElement = this.imageElement.nativeElement, 500);
+    // this.imgNativeElement = this.imageElement.nativeElement;
   }
 
   /**

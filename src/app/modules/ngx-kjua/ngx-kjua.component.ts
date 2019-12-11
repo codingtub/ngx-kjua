@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component, ElementRef,
   Inject,
@@ -29,7 +30,7 @@ let kjua: any;
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgxKjuaComponent implements OnInit, OnChanges {
+export class NgxKjuaComponent implements OnChanges, AfterViewInit {
 
   /**
    * render method
@@ -146,9 +147,7 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
   @ViewChild("elem", { static: false })
   div: ElementRef;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-  ) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     if ( isPlatformServer(this.platformId) ) {
       return;
     } else if ( !kjua ) {
@@ -156,12 +155,14 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-    this.updateView();
+  ngAfterViewInit(): void {
+    //this.updateView();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.updateView();
+    if ( this.div ) {
+      this.updateView();
+    }
   }
 
   get template(): Node {
@@ -198,14 +199,12 @@ export class NgxKjuaComponent implements OnInit, OnChanges {
   }
 
   updateView() {
-    if ( this.div ) {
-      this.div.nativeElement.style.width = +this.size;
-      this.div.nativeElement.style.height = +this.size;
-      if ( this.renderAsync ) {
-        requestAnimationFrame(() => this.renderCode());
-      } else {
-        this.renderCode();
-      }
+    this.div.nativeElement.style.width = +this.size;
+    this.div.nativeElement.style.height = +this.size;
+    if ( this.renderAsync ) {
+      requestAnimationFrame(() => this.renderCode());
+    } else {
+      this.renderCode();
     }
   }
 }
